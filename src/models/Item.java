@@ -4,16 +4,18 @@ public class Item {
     private Long id;
     private String name;
     private String description;
-    private double price;
+    private String price;
+    private String specification;
 
     public Item() {
     }
 
-    public Item(Long id, String name, String description, double price) {
+    public Item(Long id, String name, String description, String price,String specification) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.specification=specification;
     }
 
     public Long getId() {
@@ -40,11 +42,19 @@ public class Item {
         this.description = description;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }

@@ -1,37 +1,33 @@
 package Servlets;
 
 import db.DBManager;
-import models.Item;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.Item;
 import models.User;
 
+
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/")
-public class HomeServlet extends HttpServlet {
-    private DBManager dbManager;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        dbManager = new DBManager();
-    }
-
+@WebServlet("/details")
+public class DetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long id = Long.parseLong(req.getParameter("id"));
+        Item item = DBManager.getItem(id);
+        req.setAttribute("danne", item);
         User user = (User) req.getSession().getAttribute("currentUser");
         if (user != null){
-            req.setAttribute("items", DBManager.getItems());
-            req.getRequestDispatcher("home.jsp").forward(req, resp);
+            req.setAttribute("comments", DBManager.getCommentsByItemId(id));
+            req.getRequestDispatcher("details.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("signin.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("signin.jsp").forward(req, resp);
-
     }
 }
+
+
 
